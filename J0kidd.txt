@@ -98,9 +98,9 @@ local Scripts = {
     c00lgui = "loadstring(game:GetObjects('rbxassetid://473373681')[1].Source)()",
     IDK = "loadstring(game:HttpGet('https://raw.githubusercontent.com/MrDZT/scripts/main/DZT%20Fe'))()",
     f3x = "loadstring(game:HttpGet('https://pastebin.com/raw/RrDjL8Kd'))()",
-    Orion Ui = "loadstring(Game:HttpGet("https://raw.githubusercontent.com/Yutreepode67/Public-fr/refs/heads/main/Super.txt"))()",
-    Nothing for yet = "print('hello')",
-    Nothing for yet = "print('nothing')"
+    OrionUi = "loadstring(Game:HttpGet('https://raw.githubusercontent.com/Yutreepode67/Public-fr/refs/heads/main/Super.txt'))()",
+    Nothing = "print('hello')",
+    Nothing = "print('nothing')"
 }
 
 local yOffset = 0.1
