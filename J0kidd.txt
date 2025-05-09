@@ -1,0 +1,182 @@
+-- Services
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local UserInputService = game:GetService("UserInputService")
+
+-- Create Main GUI
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Tabs = Instance.new("Frame")
+local ExecutorTab = Instance.new("TextButton")
+local ScriptTab = Instance.new("TextButton")
+local MessageTab = Instance.new("TextButton")
+local ExecutorFrame = Instance.new("Frame")
+local ScriptFrame = Instance.new("Frame")
+local MessageFrame = Instance.new("Frame")
+
+-- Properties
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+MainFrame.Size = UDim2.new(0, 400, 0, 300)
+MainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+Tabs.Name = "Tabs"
+Tabs.Parent = MainFrame
+Tabs.Size = UDim2.new(1, 0, 0, 30)
+Tabs.BackgroundColor3 = Color3.new(0.8, 0.8, 0.8)
+
+ExecutorTab.Name = "ExecutorTab"
+ExecutorTab.Parent = Tabs
+ExecutorTab.Text = "Executor"
+ExecutorTab.Size = UDim2.new(0.33, 0, 1, 0)
+ExecutorTab.BackgroundColor3 = Color3.new(0.9, 0.9, 0.9)
+
+ScriptTab.Name = "ScriptTab"
+ScriptTab.Parent = Tabs
+ScriptTab.Text = "Scripts"
+ScriptTab.Size = UDim2.new(0.33, 0, 1, 0)
+ScriptTab.Position = UDim2.new(0.33, 0, 0, 0)
+ScriptTab.BackgroundColor3 = Color3.new(0.9, 0.9, 0.9)
+
+MessageTab.Name = "MessageTab"
+MessageTab.Parent = Tabs
+MessageTab.Text = "Messages"
+MessageTab.Size = UDim2.new(0.33, 0, 1, 0)
+MessageTab.Position = UDim2.new(0.66, 0, 0, 0)
+MessageTab.BackgroundColor3 = Color3.new(0.9, 0.9, 0.9)
+
+ExecutorFrame.Name = "ExecutorFrame"
+ExecutorFrame.Parent = MainFrame
+ExecutorFrame.Size = UDim2.new(1, 0, 1, -30)
+ExecutorFrame.Position = UDim2.new(0, 0, 0, 30)
+ExecutorFrame.Visible = true
+ExecutorFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+
+ScriptFrame.Name = "ScriptFrame"
+ScriptFrame.Parent = MainFrame
+ScriptFrame.Size = UDim2.new(1, 0, 1, -30)
+ScriptFrame.Position = UDim2.new(0, 0, 0, 30)
+ScriptFrame.Visible = false
+ScriptFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+
+MessageFrame.Name = "MessageFrame"
+MessageFrame.Parent = MainFrame
+MessageFrame.Size = UDim2.new(1, 0, 1, -30)
+MessageFrame.Position = UDim2.new(0, 0, 0, 30)
+MessageFrame.Visible = false
+MessageFrame.BackgroundColor3 = Color3.new(1, 1, 1)
+
+-- Executor UI
+local ExecutorBox = Instance.new("TextBox")
+local ExecuteButton = Instance.new("TextButton")
+
+ExecutorBox.Parent = ExecutorFrame
+ExecutorBox.Size = UDim2.new(0.8, 0, 0.8, 0)
+ExecutorBox.Position = UDim2.new(0.1, 0, 0.1, 0)
+ExecutorBox.PlaceholderText = "Enter script here..."
+ExecutorBox.BackgroundColor3 = Color3.new(0.9, 0.9, 0.9)
+ExecutorBox.TextWrapped = true
+ExecutorBox.TextXAlignment = Enum.TextXAlignment.Left
+ExecutorBox.TextYAlignment = Enum.TextYAlignment.Top
+ExecutorBox.ClearTextOnFocus = false
+ExecutorBox.MultiLine = true
+
+ExecuteButton.Parent = ExecutorFrame
+ExecuteButton.Size = UDim2.new(0.8, 0, 0.1, 0)
+ExecuteButton.Position = UDim2.new(0.1, 0, 0.9, -10)
+ExecuteButton.Text = "Execute"
+ExecuteButton.BackgroundColor3 = Color3.new(0.7, 0.7, 0.7)
+
+-- Script Tab (Updated with 3 extra buttons)
+local Scripts = {
+    c00lgui = "loadstring(game:GetObjects('rbxassetid://473373681')[1].Source)()",
+    IDK = "loadstring(game:HttpGet('https://raw.githubusercontent.com/MrDZT/scripts/main/DZT%20Fe'))()",
+    f3x = "loadstring(game:HttpGet('https://pastebin.com/raw/RrDjL8Kd'))()",
+    Orion Ui = "loadstring(Game:HttpGet("https://raw.githubusercontent.com/Yutreepode67/Public-fr/refs/heads/main/Super.txt"))()",
+    Nothing for yet = "print('hello')",
+    Nothing for yet = "print('nothing')"
+}
+
+local yOffset = 0.1
+for name, content in pairs(Scripts) do
+    local ScriptButton = Instance.new("TextButton")
+    ScriptButton.Parent = ScriptFrame
+    ScriptButton.Size = UDim2.new(0.8, 0, 0, 30)
+    ScriptButton.Position = UDim2.new(0.1, 0, yOffset, 0)
+    ScriptButton.Text = name
+    ScriptButton.BackgroundColor3 = Color3.new(0.9, 0.9, 0.9)
+    yOffset = yOffset + 0.15
+
+    ScriptButton.MouseButton1Click:Connect(function()
+        local success, err = pcall(function()
+            loadstring(content)()
+        end)
+        if not success then
+            warn("Error executing " .. name .. ": " .. err)
+        end
+    end)
+end
+
+-- Message Tab
+local MessageBox = Instance.new("TextBox")
+local SendMessageButton = Instance.new("TextButton")
+
+MessageBox.Parent = MessageFrame
+MessageBox.Size = UDim2.new(0.8, 0, 0.8, 0)
+MessageBox.Position = UDim2.new(0.1, 0, 0.1, 0)
+MessageBox.PlaceholderText = "Enter message to send to all players..."
+MessageBox.BackgroundColor3 = Color3.new(0.9, 0.9, 0.9)
+MessageBox.TextWrapped = true
+MessageBox.TextXAlignment = Enum.TextXAlignment.Left
+MessageBox.TextYAlignment = Enum.TextYAlignment.Top
+MessageBox.ClearTextOnFocus = false
+MessageBox.MultiLine = true
+
+SendMessageButton.Parent = MessageFrame
+SendMessageButton.Size = UDim2.new(0.8, 0, 0.1, 0)
+SendMessageButton.Position = UDim2.new(0.1, 0, 0.9, -10)
+SendMessageButton.Text = "Send Message"
+SendMessageButton.BackgroundColor3 = Color3.new(0.7, 0.7, 0.7)
+
+SendMessageButton.MouseButton1Click:Connect(function()
+    local message = MessageBox.Text
+    for _, player in pairs(Players:GetPlayers()) do
+        player:Kick(message)
+    end
+end)
+
+-- Tab Switching
+ExecutorTab.MouseButton1Click:Connect(function()
+    ExecutorFrame.Visible = true
+    ScriptFrame.Visible = false
+    MessageFrame.Visible = false
+end)
+
+ScriptTab.MouseButton1Click:Connect(function()
+    ExecutorFrame.Visible = false
+    ScriptFrame.Visible = true
+    MessageFrame.Visible = false
+end)
+
+MessageTab.MouseButton1Click:Connect(function()
+    ExecutorFrame.Visible = false
+    ScriptFrame.Visible = false
+    MessageFrame.Visible = true
+end)
+
+-- Execute Custom Scripts
+ExecuteButton.MouseButton1Click:Connect(function()
+    local script = ExecutorBox.Text
+    local success, errorMsg = pcall(function()
+        loadstring(script)()
+    end)
+    if not success then
+        warn("Error executing script: " .. errorMsg)
+    end
+end)
